@@ -22,11 +22,11 @@ keyHandler = (my, chunk, key) ->
             my.sphero.setColor 'red'
         when ' '
             my.sphero.stop()
-        when "\u001b[C"
+        when "\u001b[C" #right
             my.sphero.roll SPEED, 90
-        when "\u001b[B"
+        when "\u001b[B" #back
             my.sphero.roll SPEED, 180
-        when "\u001b[D"
+        when "\u001b[D" #left
             my.sphero.roll SPEED, 270
         when 'g'
             circleA my
