@@ -51,100 +51,117 @@ flirt = (my) ->
 
 # Draws ng-conf logo
 angularRulz = (my) ->
-    speed = 70
-    innerSide = 1.6
-    shortSide = 2
-    longSide = 1.33043478
+    speed = 50
+    innerShortSide = 0.63716814
+    innerLongSide = 0.88495575
+    thickness = 0.38053097
+    shortSide = 3
+    longSide = 1.36283186
     timeToRoll = shortSide
 
     return if fired
     fired = true
 
     # Start moving immediately & Draw the outer hexagon
+    # Bottom of Yellow
     my.sphero.setColor 'gold'
-    my.sphero.roll speed, 300 #bottom of yellow
+    my.sphero.roll speed, 300
 
-    after (timeToRoll).second(), -> # stop at 1s
+    # Top of Yellow
+    after (timeToRoll).second(), ->
         my.sphero.stop()
-        my.sphero.roll speed, 353 #top of yellow
+        my.sphero.roll speed, 353
         return
 
-    after (timeToRoll + shortSide * longSide).second(), -> # stop at 2.33s
+    # Left of Blue
+    after (timeToRoll + shortSide * longSide).second(), ->
         my.sphero.stop()
         my.sphero.setColor 'steelblue'
-        my.sphero.roll speed, 70 #left of blue
+        my.sphero.roll speed, 70
         return
 
+    # Right of Blue
     timeToRoll += shortSide * longSide
-    after (timeToRoll + shortSide).second(), -> # stop at 3.33s
+    after (timeToRoll + shortSide).second(), ->
         my.sphero.stop()
         my.sphero.setColor 'midnightblue'
-        my.sphero.roll speed, 109 #right of blue
+        my.sphero.roll speed, 109
         return
 
+    # Top of Green
     timeToRoll += shortSide
-    after (timeToRoll + shortSide).second(), -> # stop at 4.33s
+    after (timeToRoll + shortSide).second(), ->
         my.sphero.stop()
         my.sphero.setColor 'darkgreen'
-        my.sphero.roll speed, 187 #top of green
+        my.sphero.roll speed, 187
         return
 
+    # Bottom of Green
     timeToRoll += shortSide
-    after (timeToRoll + shortSide * longSide).second(), -> # stop at 5.66s
+    after (timeToRoll + shortSide * longSide).second(), ->
         my.sphero.stop()
-        my.sphero.roll speed, 240 #bottom of green
+        my.sphero.roll speed, 240
         return
 
+    # Starting Point
     timeToRoll += shortSide
-    after (timeToRoll + shortSide).second(), -> # stop at 6.66s
+    after (timeToRoll + shortSide).second(), ->
         my.sphero.stop()
         return
 
     timeToRoll += shortSide
 
     # Stop for .5s before drawing inner red shield
-    after (timeToRoll + .5).second(), -> # stop at 6.71s
-        my.sphero.roll speed, 0 #roll inside
+    # Roll to inside
+    after (timeToRoll + 0.5).second(), ->
+        my.sphero.roll speed, 0
 
-    timeToRoll += .5
-    after (timeToRoll + .2).second(), -> #stop at 6.86s
+    # Bottom of Yellow
+    timeToRoll += 0.5
+    after (timeToRoll + thickness).second(), ->
         my.sphero.stop()
         my.sphero.setColor 'red'
-        my.sphero.roll speed, 300 #bottom of yellow
+        my.sphero.roll speed, 300
         return
 
-    timeToRoll += .2
-    after (timeToRoll + innerSide).second(), -> # stop at 8.66s
+    # Top of Yellow
+    timeToRoll += thickness
+    after (timeToRoll + innerShortSide * shortSide).second(), ->
         my.sphero.stop()
-        my.sphero.roll speed, 353 #top of yellow
+        my.sphero.roll speed, 353
         return
 
-    after (timeToRoll + innerSide * longSide).second(), -> # stop at 11.05
+    # Left of Blue
+    after (timeToRoll + innerLongSide * innerLongSide).second(), ->
         my.sphero.stop()
-        my.sphero.roll speed, 70 #left of blue
+        my.sphero.roll speed, 70
         return
 
-    timeToRoll += innerSide * longSide
-    after (timeToRoll + innerSide).second(), -> # stop at 12.85
+    # Right of Blue
+    timeToRoll += innerLongSide * innerLongSide
+    after (timeToRoll + innerShortSide * shortSide).second(), ->
         my.sphero.stop()
         my.sphero.setColor 'maroon'
-        my.sphero.roll speed, 109 #right of blue
+        my.sphero.roll speed, 109
         return
 
-    timeToRoll += innerSide
-    after (timeToRoll + innerSide).second(), -> # stop at 14.65
+    # Top of Green
+    timeToRoll += innerShortSide * shortSide
+    after (timeToRoll + innerShortSide * shortSide).second(), ->
         my.sphero.stop()
-        my.sphero.roll speed, 187 #top of green
+        my.sphero.roll speed, 187
         return
 
-    timeToRoll += innerSide
-    after (timeToRoll + innerSide * longSide).second(), -> # stop at 17.04s
+    # Bottom of Green
+    timeToRoll += innerShortSide * shortSide
+    after (timeToRoll + innerLongSide * innerLongSide).second(), ->
         my.sphero.stop()
-        my.sphero.roll speed, 240 #bottom of green
+        my.sphero.roll speed, 240
         return
 
-    timeToRoll += innerSide
-    after (timeToRoll + innerSide).second(), -> # stop at 18.84s
+    # Stop at starting point
+    timeToRoll += innerShortSide * shortSide
+    after (timeToRoll + innerShortSide * shortSide).second(), ->
         my.sphero.stop()
         return
 
@@ -203,7 +220,11 @@ keyHandler = (my, chunk, key) ->
         # Down Arrow
         # Rolls backwards
         when "\u001b[B"
-            my.sphero.roll speed, 180
+            if heading < 180
+                heading += 180
+            else
+                heading -= 180
+            my.sphero.roll speed, heading
 
         # Right Arrow
         # Changes heading by +15 degrees
@@ -212,7 +233,6 @@ keyHandler = (my, chunk, key) ->
                 heading = 0
             else
                 heading += 15
-            console.log heading
             my.sphero.roll 0, heading
 
         # Left Arrow
@@ -222,7 +242,6 @@ keyHandler = (my, chunk, key) ->
                 heading = 345
             else
                 heading -= 15
-            console.log heading
             my.sphero.roll 0, heading
 
         # Flirt Function
