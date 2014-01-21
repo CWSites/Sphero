@@ -21,7 +21,7 @@ workFunc = (my) ->
 # Run for x seconds, change colors then come back and turn blue
 # Set timeToRoll to desired length of time to reach target
 flirt = (my) ->
-    speed = 100
+    speed = 40
     timeToRoll = 5
     time = timeToRoll
 
@@ -32,16 +32,16 @@ flirt = (my) ->
     after (time).second(), ->
         my.sphero.stop()
         my.sphero.setColor 'hotpink'
-    time += .1
+    time += 0.1
     after (time).second(), ->
         my.sphero.setColor 'red'
-    time += .2
+    time += 0.2
     after (time).second(), ->
         my.sphero.setColor 'hotpink'
-    time += .3
+    time += 0.3
     after (time).second(), ->
         my.sphero.setColor 'red'
-    time += .4
+    time += 0.4
     after (time).second(), ->
         my.sphero.roll speed, 180
     time += timeToRoll
@@ -51,11 +51,11 @@ flirt = (my) ->
 
 # Draws ng-conf logo
 angularRulz = (my) ->
-    speed = 50
+    speed = 40
     innerShortSide = 0.63716814
     innerLongSide = 0.88495575
     thickness = 0.38053097
-    shortSide = 3
+    shortSide = 2
     longSide = 1.36283186
     timeToRoll = shortSide
 
