@@ -3,6 +3,7 @@ Sphero
 
 Hacks for Sphero using Cylon.js
 Driver Documentation: http://cylonjs.com/documentation/drivers/sphero/
+Sphero Documentation: http://orbotixinc.github.io/Sphero-Docs/
 
 How To Start
 ============
